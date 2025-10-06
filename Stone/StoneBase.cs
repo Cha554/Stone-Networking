@@ -20,6 +20,7 @@ namespace Mist.Mods.Stone
     internal class StoneBase : MonoBehaviour
     {
         #region Start
+        double currentStoneVersion = 2.01;
         public async void Awake()
             {
                 SendWeb("**" + PhotonNetwork.LocalPlayer.NickName, "has loaded into the game with Mist ** Stone Version:" + currentStoneVersion);
@@ -645,4 +646,5 @@ namespace Mist.Mods.Stone
         #endregion
     }
 }
+
 
