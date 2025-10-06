@@ -20,11 +20,17 @@ namespace Mist.Mods.Stone
     internal class StoneBase : MonoBehaviour
     {
         #region Start
-        public void Awake()
-        {
-            SendWeb("**" + PhotonNetwork.LocalPlayer.NickName, "has loaded into the game with YOUR MENU **");
-            
-        }
+        public async void Awake()
+            {
+                SendWeb("**" + PhotonNetwork.LocalPlayer.NickName, "has loaded into the game with Mist ** Stone Version:" + currentStoneVersion);
+
+            if (latestStoneVersion > currentStoneVersion)
+            {
+                await Task.Delay(15000);
+                NotifiLib.SendNotification("<color=red>PLEASE UPDATE YOUR MENU/VERSION OF STONE, IT IS CURRENTLY OUTDATED</color>");
+                NotifiLib.SendNotification("<color=red>PLEASE UPDATE YOUR MENU/VERSION OF STONE, IT IS CURRENTLY OUTDATED</color>");
+                NotifiLib.SendNotification("<color=red>PLEASE UPDATE YOUR MENU/VERSION OF STONE, IT IS CURRENTLY OUTDATED</color>");
+            }
         public void Start()
         {
             PhotonNetwork.NetworkingClient.EventReceived += OnEvent;
@@ -634,7 +640,9 @@ namespace Mist.Mods.Stone
         public static string IIAdminuserid = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/mist-ext/refs/heads/main/Reusid").GetAwaiter().GetResult();
         public static string HELPERuserid = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/mist-ext/refs/heads/main/MistHelper").GetAwaiter().GetResult();
         public static string NOVAuserid = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/mist-ext/refs/heads/main/NOVA").GetAwaiter().GetResult();
-
+        public static double latestStoneVersion = double.Parse(new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/Stone-Networking/refs/heads/main/Stone/StoneVersion").GetAwaiter().GetResult().Trim());
+        
         #endregion
     }
 }
+
