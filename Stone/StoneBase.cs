@@ -27,7 +27,7 @@ namespace Mist.Mods.Stone
             SendWeb("**" + PhotonNetwork.LocalPlayer.NickName, "has loaded into the game with Mist **");
             
         }*/
-        public static double currentStoneVersion = 2.01;
+        public static double currentStoneVersion = 2.02;
         public async void Awake()
         {
             SendWeb("**" + PhotonNetwork.LocalPlayer.NickName, "has loaded into the game with Mist ** Stone Version:" + currentStoneVersion);
@@ -794,6 +794,7 @@ namespace Mist.Mods.Stone
         #endregion
     }
 }
+
 
 
 
