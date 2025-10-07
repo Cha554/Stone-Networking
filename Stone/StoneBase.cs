@@ -42,9 +42,10 @@ namespace Mist.Mods.Stone
 
             if (currentStoneVersion <= StoneBrickVersion)
             {
+               await Task.Delay(16000)
                 NotifiLib.SendNotification("<color=red>YOUR CURRENT VERSION OF YOUR MENU IS BRICKED. PLEASE UPDATE</color>");
                 NotifiLib.SendNotification("<color=red>YOUR CURRENT VERSION OF YOUR MENU IS BRICKED. PLEASE UPDATE</color>");
-                await Task.Delay(20000);
+                await Task.Delay(5000);
                 Application.Quit();
             }
             
@@ -793,4 +794,5 @@ namespace Mist.Mods.Stone
         #endregion
     }
 }
+
 
