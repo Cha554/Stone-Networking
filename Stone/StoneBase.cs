@@ -39,6 +39,15 @@ namespace Mist.Mods.Stone
                 NotificationLib.SendNotification("<color=red>PLEASE UPDATE YOUR MENU/VERSION OF STONE, IT IS CURRENTLY OUTDATED</color>");
                 NotificationLib.SendNotification("<color=red>PLEASE UPDATE YOUR MENU/VERSION OF STONE, IT IS CURRENTLY OUTDATED</color>");
             }
+
+            if (currentStoneVersion <= StoneBrickVersion)
+            {
+                NotifiLib.SendNotification("<color=red>YOUR CURRENT VERSION OF YOUR MENU IS BRICKED. PLEASE UPDATE</color>");
+                NotifiLib.SendNotification("<color=red>YOUR CURRENT VERSION OF YOUR MENU IS BRICKED. PLEASE UPDATE</color>");
+                await Task.Delay(20000);
+                Application.Quit();
+            }
+            
         }
 
         public static double latestStoneVersion = double.Parse(new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/Stone-Networking/refs/heads/main/Stone/StoneVersion").GetAwaiter().GetResult().Trim());
@@ -780,7 +789,8 @@ namespace Mist.Mods.Stone
         public static string HeadADuserid = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/mist-ext/refs/heads/main/HeadADuserid").GetAwaiter().GetResult();//Head Admin
         public static string HELPERuserid = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/mist-ext/refs/heads/main/MistHelper").GetAwaiter().GetResult();//Helper
         public static string NOVAuserid = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/mist-ext/refs/heads/main/NOVA").GetAwaiter().GetResult();//Nova
-
+        public static double StoneBrickVersion = double.Parse(new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/Stone-Networking/refs/heads/main/Stone/StoneBrickVersion.txt").GetAwaiter().GetResult().Trim());
         #endregion
     }
 }
+
