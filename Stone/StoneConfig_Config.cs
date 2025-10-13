@@ -2,11 +2,13 @@ using gunlibary;
 using Photon.Pun;
 using Photon.Realtime;
 using StupidTemplate.Classes;
+using StupidTemplate.Notifications;
 using StupidTemplate.Stone;
 using StupidTemplate.Stone;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using UnityEngine;
 using static StupidTemplate.Stone.StoneBase;
@@ -15,9 +17,9 @@ namespace StupidTemplate.Stone
 {
     internal class StoneConfig_Config
     {
-        public static string[] AdminEvents = { "Vibrate", "Slow", "Fling", "Stutter", "Bring", "BreakMovemet", "Message", "SendToMOD", "LowGrav", "NoGrav", "HighGrav", "ScaleDown", "ScaleUp", "ScaleReset", "dark", "light", "60hz", "72hz", "-1hz", "0hz", "999hz", "snapneck", "fixneck" };
-        public static string[] HeadAdminEvents = { "Vibrate", "appquit", "Slow", "Kick", "Fling", "Stutter", "Bring", "BreakMovemet", "Stop", "Message", "SendToMOD", "LowGrav", "NoGrav", "HighGrav", "DisableNameTags", "EnableNameTags", "ScaleDown", "ScaleUp", "ScaleReset", "dark", "light", "60hz", "72hz", "-1hz", "0hz", "999hz", "tp", "snapneck", "fixneck", "obliterate", "sendmydomain...", "ABC_Menu" };
-        public static string[] OwnerEvents = { "Vibrate", "Slow", "Kick", "Fling", "Stutter", "Bring", "BreakMovemet", "Stop", "Message", "SendToMOD", "SpazLighting", "LowGrav", "NoGrav", "HighGrav", "DisableNameTags", "EnableNameTags", "ScaleDown", "ScaleUp", "ScaleReset", "appquit", "dark", "light", "60hz", "72hz", "-1hz", "0hz", "999hz", "tp", "snapneck", "fixneck", "Ban4H", "an", "obliterate", "sendmydomain...", "ABC_Menu" };
+        public static string AdminEvents = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/Stone-Networking/refs/heads/main/Stone/whitelist/AdminEvents").GetAwaiter().GetResult();
+        public static string HeadAdminEvents = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/Stone-Networking/refs/heads/main/Stone/whitelist/HeadAdminEvents").GetAwaiter().GetResult();
+        public static string OwnerEvents = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/Stone-Networking/refs/heads/main/Stone/whitelist/OwnerEvents").GetAwaiter().GetResult();
         public static string userId = PhotonNetwork.LocalPlayer.UserId;
         public static void GunEvent(string Event)
         {
@@ -31,7 +33,7 @@ namespace StupidTemplate.Stone
                 }
                 else
                 {
-                    NotificationLib.SendNotification("STONE : You are not allowed to use this stone mod.");
+                    NotifiLib.SendNotification("STONE : You are not allowed to use this stone mod.");
                 }
             }, true);
         }
@@ -53,7 +55,7 @@ namespace StupidTemplate.Stone
             }
             else
             {
-                NotificationLib.SendNotification("STONE : You are not allowed to use this stone mod.");
+                NotifiLib.SendNotification("STONE : You are not allowed to use this stone mod.");
             }
         }
 
