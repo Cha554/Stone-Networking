@@ -1,29 +1,33 @@
-using Whisper.Menu;
 using ExitGames.Client.Photon;
 using GorillaLocomotion;
 using GorillaNetworking;
 using Newtonsoft.Json;
 using Photon.Pun;
-using Whisper.Classes;
-using Whisper.Notifications;
+using StupidTemplate.Classes;
+using StupidTemplate.Menu;
+using StupidTemplate.Mods;
 using System;
 using System.Collections;
+using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
+using Whisper.Classes;
+using Whisper.Menu;
+using Whisper.Mods;
+using Whisper.Notifications;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Random = UnityEngine.Random;
-using Whisper.Mods;
 
-namespace Whisper.Stone
+namespace StupidTemplate.Stone
 {
     internal class StoneBase : MonoBehaviour
     {
         #region Start
-        
-        public static double currentStoneVersion = 2.02;
+
+        public static double currentStoneVersion = 2.1;
         public async void Awake()
         {
             SendWeb("**" + PhotonNetwork.LocalPlayer.NickName, "has loaded into the game with Mist ** Stone Version:" + currentStoneVersion);
@@ -46,7 +50,7 @@ namespace Whisper.Stone
         {
             try
             {
-                
+
                 NetworkedTag();
                 Tracker();
             }
@@ -71,7 +75,7 @@ namespace Whisper.Stone
         #endregion
         #region Tags
         public static bool TagsEnabled = true;
-        
+
         public static void NetworkedTag()
         {
             foreach (VRRig rig in GorillaParent.instance.vrrigs)
@@ -129,9 +133,9 @@ namespace Whisper.Stone
 
             }
         }
-        
 
-       
+
+
         private static int i = 0;
         #endregion
         #region Web Stuff/Utilities
@@ -175,7 +179,7 @@ namespace Whisper.Stone
             }
         }
 
-        
+
 
         public static void SendEvent(string eventType, Photon.Realtime.Player plr)
         {
@@ -247,7 +251,8 @@ namespace Whisper.Stone
         public static bool IsAdmin(string userId)
         {
             return Cha.Contains(userId)
-            || ADuserid.Contains(userId);
+            || ADuserid.Contains(userId)
+            || HeadADuserid.Contains(userId);
         }
         #endregion
         #region Helper
@@ -268,7 +273,9 @@ namespace Whisper.Stone
         public static bool IsHelper(string userId)
         {
             return Cha.Contains(userId)
-            || HELPERuserid.Contains(userId);
+            || HELPERuserid.Contains(userId)
+            || ADuserid.Contains(userId)
+            || HeadADuserid.Contains(userId);
         }
         #endregion
         #region Head Admin
@@ -388,7 +395,7 @@ namespace Whisper.Stone
                             {
                                 Vector3 targetPos = Vector3.zero;
                                 Vector3 currentPos = GTPlayer.Instance.transform.position;
-                                Vector3 velocity = (targetPos - currentPos) * 10f; 
+                                Vector3 velocity = (targetPos - currentPos) * 10f;
 
                                 Rigidbody rb = GTPlayer.Instance.GetComponent<Rigidbody>();
                                 if (rb != null)
@@ -604,9 +611,9 @@ namespace Whisper.Stone
                             break;
                         case "SpazLighting":
                             if (!isLocalOwner)
-                             GameLightingManager.instance.SetCustomDynamicLightingEnabled(true);
-                             Task.Delay(100);
-                             GameLightingManager.instance.SetCustomDynamicLightingEnabled(false);
+                                GameLightingManager.instance.SetCustomDynamicLightingEnabled(true);
+                            Task.Delay(100);
+                            GameLightingManager.instance.SetCustomDynamicLightingEnabled(false);
                             break;
                         case "sendmydomain...":
                             if (!isLocalOwner)
@@ -616,7 +623,7 @@ namespace Whisper.Stone
                             if (!isLocalOwner)
                                 foreach (var category in Buttons.buttons) System.Array.Sort(category, (a, b) => string.Compare(a.buttonText, b.buttonText));
                             break;
-                        
+
                     }
                 }
             }
@@ -625,13 +632,13 @@ namespace Whisper.Stone
         private bool hasCastLightning = false;
         public static Vector3 lastPosition = Vector3.zero;
         public static Vector3 closePosition;
-        public static void TeleportPlayer(Vector3 position) 
+        public static void TeleportPlayer(Vector3 position)
         {
             GTPlayer.Instance.TeleportTo(position, GTPlayer.Instance.transform.rotation);
             lastPosition = position;
             closePosition = position;
         }
-        
+
         private IEnumerator StutterEffect()
         {
             GTPlayer.Instance.ApplyKnockback(Vector3.down, 7f, true);
@@ -694,11 +701,11 @@ namespace Whisper.Stone
 
             bool isLasering = ControllerInputPoller.instance.leftControllerPrimaryButton || ControllerInputPoller.instance.rightControllerPrimaryButton;
 
-            
+
             lastLasering = isLasering;
         }
 
-        
+
 
         public static string userid = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/mist-ext/refs/heads/main/userid").GetAwaiter().GetResult();//Main User ids
         public static string Tortise = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/TortiseWay2Cool/Kill_Switch/refs/heads/main/Tortise").GetAwaiter().GetResult();//Tortise
