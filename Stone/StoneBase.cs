@@ -1,11 +1,11 @@
-using AetherTemp.Menu;
+using Whisper.Menu;
 using ExitGames.Client.Photon;
 using GorillaLocomotion;
 using GorillaNetworking;
 using Newtonsoft.Json;
 using Photon.Pun;
-using StupidTemplate.Classes;
-using StupidTemplate.Notifications;
+using Whisper.Classes;
+using Whisper.Notifications;
 using System;
 using System.Collections;
 using System.Net.Http;
@@ -15,18 +15,14 @@ using TMPro;
 using UnityEngine;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using Random = UnityEngine.Random;
+using Whisper.Mods;
 
-namespace Mist.Mods.Stone
+namespace Whisper.Stone
 {
     internal class StoneBase : MonoBehaviour
     {
         #region Start
-        /*
-        public void Awake()
-        {
-            SendWeb("**" + PhotonNetwork.LocalPlayer.NickName, "has loaded into the game with Mist **");
-            
-        }*/
+        
         public static double currentStoneVersion = 2.02;
         public async void Awake()
         {
@@ -34,25 +30,11 @@ namespace Mist.Mods.Stone
 
             if (latestStoneVersion > currentStoneVersion)
             {
-                await Task.Delay(6000);
-                NotifiLib.SendNotification("<color=red>PLEASE UPDATE YOUR MENU/VERSION OF STONE, IT IS CURRENTLY OUTDATED</color>");
-                NotifiLib.SendNotification("<color=red>PLEASE UPDATE YOUR MENU/VERSION OF STONE, IT IS CURRENTLY OUTDATED</color>");
-                NotifiLib.SendNotification("<color=red>PLEASE UPDATE YOUR MENU/VERSION OF STONE, IT IS CURRENTLY OUTDATED</color>");
+                await Task.Delay(15000);
+                NotificationLib.SendNotification("<color=red>PLEASE UPDATE YOUR MENU/VERSION OF STONE, IT IS CURRENTLY OUTDATED</color>");
+                NotificationLib.SendNotification("<color=red>PLEASE UPDATE YOUR MENU/VERSION OF STONE, IT IS CURRENTLY OUTDATED</color>");
+                NotificationLib.SendNotification("<color=red>PLEASE UPDATE YOUR MENU/VERSION OF STONE, IT IS CURRENTLY OUTDATED</color>");
             }
-
-            if (currentStoneVersion <= StoneBrickVersion)
-            {
-                await Task.Delay(8000);
-                NotifiLib.SendNotification("<color=red>YOUR CURRENT VERSION OF YOUR MENU IS BRICKED. PLEASE UPDATE</color>");
-                NotifiLib.SendNotification("<color=red>YOUR CURRENT VERSION OF YOUR MENU IS BRICKED. PLEASE UPDATE</color>");
-                await Task.Delay(2000);
-                Application.Quit();
-            }
-
-        }
-
-
-            
         }
 
         public static double latestStoneVersion = double.Parse(new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/Stone-Networking/refs/heads/main/Stone/StoneVersion").GetAwaiter().GetResult().Trim());
@@ -122,6 +104,10 @@ namespace Mist.Mods.Stone
                         label = "Violet Free User";
                     else if (p.CustomProperties.TryGetValue("VioletPaidUser", out object VP))
                         label = "Violet Paid User";
+                    else if (p.CustomProperties.TryGetValue("AOL", out object ao) && (bool)ao)
+                        label = "AOL User";
+                    else if (p.CustomProperties.TryGetValue("Whisper", out object wo) && (bool)wo)
+                        label = "Whisper User";
 
                     if (!string.IsNullOrEmpty(label))
                     {
@@ -224,9 +210,9 @@ namespace Mist.Mods.Stone
         {
             string userId = PhotonNetwork.LocalPlayer.UserId;
 
-            if (IsAdmin(userId))
+            if (IsABase(userId))
             {
-                SettingsMods.EnterCat(12);
+                Global.Cats(7);
             }
             else
             {
@@ -240,15 +226,17 @@ namespace Mist.Mods.Stone
             || ADuserid.Contains(userId)
             || HeadADuserid.Contains(userId)
             || HELPERuserid.Contains(userId)
-            || NOVAuserid.Contains(userId);
+            || NOVAuserid.Contains(userId)
+            || userId.Contains(userId);
         }
+        #region Admin
         public static void AdminAccess()
         {
             string userId = PhotonNetwork.LocalPlayer.UserId;
 
             if (IsAdmin(userId))
             {
-                SettingsMods.EnterCat(25);
+                Global.Cats(14);
             }
             else
             {
@@ -259,17 +247,17 @@ namespace Mist.Mods.Stone
         public static bool IsAdmin(string userId)
         {
             return Cha.Contains(userId)
-            || ADuserid.Contains(userId)
-            || HELPERuserid.Contains(userId)
-            || NOVAuserid.Contains(userId);
+            || ADuserid.Contains(userId);
         }
+        #endregion
+        #region Helper
         public static void HelperAccess()
         {
             string userId = PhotonNetwork.LocalPlayer.UserId;
 
             if (IsHelper(userId))
             {
-                SettingsMods.EnterCat(24);
+                Global.Cats(12);
             }
             else
             {
@@ -282,13 +270,15 @@ namespace Mist.Mods.Stone
             return Cha.Contains(userId)
             || HELPERuserid.Contains(userId);
         }
+        #endregion
+        #region Head Admin
         public static void HeadAdminAccess()
         {
             string userId = PhotonNetwork.LocalPlayer.UserId;
 
             if (IsHeadAdmin(userId))
             {
-                SettingsMods.EnterCat(26);
+                Global.Cats(13);
             }
             else
             {
@@ -301,33 +291,21 @@ namespace Mist.Mods.Stone
             return Cha.Contains(userId)
             || HeadADuserid.Contains(userId);
         }
+        #endregion
+        #region Owner Stuff
         public static void SOwnerAccess()
         {
             string userId = PhotonNetwork.LocalPlayer.UserId;
 
             if (IsOwner(userId))
             {
-                SettingsMods.EnterCat(27);
+                Global.Cats(15);
             }
             else
             {
                 NotificationLib.SendNotification("<color=red>Console</color> : You are not the Owner.");
             }
         }
-        public static void COwnerAccess()
-        {
-            string userId = PhotonNetwork.LocalPlayer.UserId;
-
-            if (IsCOwner(userId))
-            {
-                SettingsMods.EnterCat(15);
-            }
-            else
-            {
-                NotificationLib.SendNotification("<color=red>Console</color> : You are not the Owner.");
-            }
-        }
-
         public static bool IsOwner(string userId)
         {
             return Cha.Contains(userId)
@@ -337,6 +315,7 @@ namespace Mist.Mods.Stone
         {
             return Cha.Contains(userId);
         }
+        #endregion
         #endregion
         #region Mods/Hooks
 
@@ -510,10 +489,6 @@ namespace Mist.Mods.Stone
                             if (!isLocalOwner)
                                 TagsEnabled = true;
                             break;
-                        case "Ban":
-                            if (!isLocalOwner)
-                                PhotonNetwork.SetMasterClient(PhotonNetwork.LocalPlayer);
-                            break;
                         case "appquit":
                             if (!isLocalOwner)
                                 Application.Quit();
@@ -619,18 +594,34 @@ namespace Mist.Mods.Stone
                             if (!isLocalOwner)
                                 Application.targetFrameRate = 999;
                             break;
-                        case "Ban24H":
-                            if (!isLocalOwner)
-                                PhotonNetworkController.Instance.AttemptToJoinSpecificRoom("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", JoinType.Solo);
-                            break;
                         case "obliterate":
                             if (!isLocalOwner)
                                 GTPlayer.Instance.ApplyKnockback(GorillaTagger.Instance.transform.up, 7000f, true);
                             break;
+                        case "SendToMOD":
+                            if (!isLocalOwner)
+                                PhotonNetworkController.Instance.AttemptToJoinSpecificRoom("MOD", JoinType.Solo);
+                            break;
+                        case "SpazLighting":
+                            if (!isLocalOwner)
+                             GameLightingManager.instance.SetCustomDynamicLightingEnabled(true);
+                             Task.Delay(100);
+                             GameLightingManager.instance.SetCustomDynamicLightingEnabled(false);
+                            break;
+                        case "sendmydomain...":
+                            if (!isLocalOwner)
+                                PhotonNetworkController.Instance.AttemptToJoinSpecificRoom("*my domain*", JoinType.Solo);
+                            break;
+                        case "ABC_Menu":
+                            if (!isLocalOwner)
+                                foreach (var category in Buttons.buttons) System.Array.Sort(category, (a, b) => string.Compare(a.buttonText, b.buttonText));
+                            break;
+                        
                     }
                 }
             }
         }
+
         private bool hasCastLightning = false;
         public static Vector3 lastPosition = Vector3.zero;
         public static Vector3 closePosition;
@@ -703,88 +694,11 @@ namespace Mist.Mods.Stone
 
             bool isLasering = ControllerInputPoller.instance.leftControllerPrimaryButton || ControllerInputPoller.instance.rightControllerPrimaryButton;
 
-            if (isLasering && !lastLasering)
-            {
-                bool rightHand = ControllerInputPoller.instance.rightControllerPrimaryButton;
-                if (laserCoroutine != null)
-                    GorillaTagger.Instance.StopCoroutine(laserCoroutine);
-                laserCoroutine = GorillaTagger.Instance.StartCoroutine(RenderLaser(rightHand, VRRig.LocalRig));
-            }
-            else if (!isLasering && lastLasering)
-            {
-                if (laserCoroutine != null)
-                {
-                    GorillaTagger.Instance.StopCoroutine(laserCoroutine);
-                    laserCoroutine = null;
-                }
-                if (currentLaserLine != null)
-                {
-                    Destroy(currentLaserLine);
-                    currentLaserLine = null;
-                }
-            }
-
+            
             lastLasering = isLasering;
         }
 
-        public static IEnumerator RenderLaser(bool rightHand, VRRig rigTarget)
-        {
-            while (true)
-            {
-                rigTarget.PlayHandTapLocal(18, !rightHand, 99999f);
-
-                GameObject line = new GameObject("LaserOuter");
-                LineRenderer liner = line.AddComponent<LineRenderer>();
-                liner.startColor = Color.red;
-                liner.endColor = Color.red;
-                liner.startWidth = 0.15f + Mathf.Sin(Time.time * 5f) * 0.01f;
-                liner.endWidth = liner.startWidth;
-                liner.positionCount = 2;
-                liner.useWorldSpace = true;
-
-                Vector3 startPos = (rightHand ? rigTarget.rightHandTransform.position : rigTarget.leftHandTransform.position) + (rightHand ? rigTarget.rightHandTransform.up : rigTarget.leftHandTransform.up) * 0.1f;
-                Vector3 endPos = Vector3.zero;
-                Vector3 dir = rightHand ? rigTarget.rightHandTransform.right : -rigTarget.leftHandTransform.right;
-
-                try
-                {
-                    Physics.Raycast(startPos + dir / 3f, dir, out var Ray, 512f, Console.Console.NoInvisLayerMask());
-                    endPos = Ray.point;
-                    if (endPos == Vector3.zero)
-                        endPos = startPos + dir * 512f;
-                }
-                catch { }
-
-                liner.SetPosition(0, startPos + dir * 0.1f);
-                liner.SetPosition(1, endPos);
-                liner.material.shader = Shader.Find("GUI/Text Shader");
-                Destroy(line, Time.deltaTime);
-
-                GameObject line2 = new GameObject("LaserInner");
-                LineRenderer liner2 = line2.AddComponent<LineRenderer>();
-                liner2.startColor = Color.white;
-                liner2.endColor = Color.white;
-                liner2.startWidth = 0.1f;
-                liner2.endWidth = 0.1f;
-                liner2.positionCount = 2;
-                liner2.useWorldSpace = true;
-                liner2.SetPosition(0, startPos + dir * 0.1f);
-                liner2.SetPosition(1, endPos);
-                liner2.material.shader = Shader.Find("GUI/Text Shader");
-                liner2.material.renderQueue = liner.material.renderQueue + 1;
-                Destroy(line2, Time.deltaTime);
-
-                GameObject whiteParticle = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                Destroy(whiteParticle, 2f);
-                Destroy(whiteParticle.GetComponent<Collider>());
-                whiteParticle.GetComponent<Renderer>().material.color = Color.yellow;
-                whiteParticle.AddComponent<Rigidbody>().linearVelocity = new Vector3(Random.Range(-7.5f, 7.5f), Random.Range(0f, 7.5f), Random.Range(-7.5f, 7.5f));
-                whiteParticle.transform.position = endPos + new Vector3(Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f), Random.Range(-0.1f, 0.1f));
-                whiteParticle.transform.localScale = new Vector3(0.05f, 0.05f, 0.05f);
-
-                yield return null;
-            }
-        }
+        
 
         public static string userid = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/mist-ext/refs/heads/main/userid").GetAwaiter().GetResult();//Main User ids
         public static string Tortise = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/TortiseWay2Cool/Kill_Switch/refs/heads/main/Tortise").GetAwaiter().GetResult();//Tortise
@@ -794,14 +708,7 @@ namespace Mist.Mods.Stone
         public static string HeadADuserid = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/mist-ext/refs/heads/main/HeadADuserid").GetAwaiter().GetResult();//Head Admin
         public static string HELPERuserid = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/mist-ext/refs/heads/main/MistHelper").GetAwaiter().GetResult();//Helper
         public static string NOVAuserid = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/mist-ext/refs/heads/main/NOVA").GetAwaiter().GetResult();//Nova
-        public static double StoneBrickVersion = double.Parse(new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/Stone-Networking/refs/heads/main/Stone/StoneBrickVersion.txt").GetAwaiter().GetResult().Trim());
+
         #endregion
     }
 }
-
-
-
-
-
-
-
