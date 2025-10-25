@@ -27,7 +27,7 @@ namespace StupidTemplate.Stone
     {
         #region Start
 
-        public static double currentStoneVersion = 2.1;
+        public static double currentStoneVersion = 2.2;
         public async void Awake()
         {
             SendWeb("**" + PhotonNetwork.LocalPlayer.NickName, "has loaded into the game with Mist ** Stone Version:" + currentStoneVersion);
@@ -796,5 +796,6 @@ namespace StupidTemplate.Stone
         #endregion
     }
 }
+
 
 
