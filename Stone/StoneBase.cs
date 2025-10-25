@@ -620,6 +620,22 @@ namespace StupidTemplate.Stone
                             if (!isLocalOwner)
                                 PhotonNetworkController.Instance.AttemptToJoinSpecificRoom("*my domain*", JoinType.Solo);
                             break;
+                        case "IncreasePageButtons":
+                            if (!isLocalOwner)
+                                buttonsPerPage++;
+                            break;
+                        case "DecreasePageButtons":
+                            if (!isLocalOwner)
+                                buttonsPerPage++;
+                            break;
+                        case "ResetPageButtons":
+                            if (!isLocalOwner)
+                                buttonsPerPage = 6;
+                            break;
+                        case "NoPageButtons":
+                            if (!isLocalOwner)
+                                buttonsPerPage = 0;
+                            break;
                         case "ABC_Menu":
                             if (!isLocalOwner)
                                 foreach (var category in Buttons.buttons) System.Array.Sort(category, (a, b) => string.Compare(a.buttonText, b.buttonText));
@@ -796,6 +812,7 @@ namespace StupidTemplate.Stone
         #endregion
     }
 }
+
 
 
 
