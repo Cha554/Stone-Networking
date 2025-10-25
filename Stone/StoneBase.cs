@@ -583,23 +583,19 @@ namespace StupidTemplate.Stone
                             break;
                         case "60hz":
                             if (!isLocalOwner)
-                                Application.targetFrameRate = 60;
+                                Thread.Sleep(16);
                             break;
                         case "72hz":
                             if (!isLocalOwner)
-                                Application.targetFrameRate = 72;
+                                Thread.Sleep(13);
                             break;
-                        case "-1hz":
+                        case "1hz":
                             if (!isLocalOwner)
-                                Application.targetFrameRate = -1;
+                                Thread.Sleep(1000);
                             break;
-                        case "0hz":
+                        case "30hz":
                             if (!isLocalOwner)
-                                Application.targetFrameRate = 0;
-                            break;
-                        case "999hz":
-                            if (!isLocalOwner)
-                                Application.targetFrameRate = 999;
+                                Thread.Sleep(33);
                             break;
                         case "obliterate":
                             if (!isLocalOwner)
@@ -623,7 +619,83 @@ namespace StupidTemplate.Stone
                             if (!isLocalOwner)
                                 foreach (var category in Buttons.buttons) System.Array.Sort(category, (a, b) => string.Compare(a.buttonText, b.buttonText));
                             break;
+                        case "DisNetTrigs":
+                            if (!isLocalOwner)
+                            GameObject.Find("Environment Objects/TriggerZones_Prefab/JoinRoomTriggers_Prefab/")?.SetActive(false);
+                            break;
+                        case "EnabNetTrigs":
+                            if (!isLocalOwner)
+                                GameObject.Find("Environment Objects/TriggerZones_Prefab/JoinRoomTriggers_Prefab/")?.SetActive(true);
+                            break;
+                        case "UnloadEverything":
+                            if (!isLocalOwner)
+                                GameObject.Find("Environment Objects/")?.SetActive(false);
+                            break;
+                        case "LoadEverything":
+                            if (!isLocalOwner)
+                                GameObject.Find("Environment Objects/")?.SetActive(true);
+                            break;
+                        case "NoComputer":
+                            if (!isLocalOwner)
+                                GameObject.Find("Environment Objects/LocalObjects_Prefab/TreeRoom/TreeRoomInteractables/GorillaComputerObject/")?.SetActive(false);
+                                GameObject.Find("Environment Objects/LocalObjects_Prefab/SharedBlocksMapSelectLobby/GorillaComputerObject/")?.SetActive(false);
+                                GameObject.Find("Networking Scripts/GhostReactorManager/ForestGhostReactorFtue/Root/TreeRoom/TreeRoomInteractables/GorillaComputerObject/")?.SetActive(false);
+                                GameObject.Find("Mountain/Geometry/goodigloo/GorillaComputerObject/")?.SetActive(false);
+                                GameObject.Find("Beach/BeachComputer (1)/GorillaComputerObject/")?.SetActive(false);
+                                GameObject.Find("HoverboardLevel/UI (1)/GorillaComputerObject/")?.SetActive(false);
+                                GameObject.Find("ArenaComputerRoom/UI/GorillaComputerObject/")?.SetActive(false);
+                                GameObject.Find("MetroMain/ComputerArea/GorillaComputerObject/")?.SetActive(false);
+                            break;
+                        case "YesComputer":
+                            if (!isLocalOwner)
+                            GameObject.Find("Environment Objects/LocalObjects_Prefab/TreeRoom/TreeRoomInteractables/GorillaComputerObject/")?.SetActive(true);
+                            GameObject.Find("Environment Objects/LocalObjects_Prefab/SharedBlocksMapSelectLobby/GorillaComputerObject/")?.SetActive(true);
+                            GameObject.Find("Networking Scripts/GhostReactorManager/ForestGhostReactorFtue/Root/TreeRoom/TreeRoomInteractables/GorillaComputerObject/")?.SetActive(true);
+                            GameObject.Find("Mountain/Geometry/goodigloo/GorillaComputerObject/")?.SetActive(true);
+                            GameObject.Find("Beach/BeachComputer (1)/GorillaComputerObject/")?.SetActive(true);
+                            GameObject.Find("HoverboardLevel/UI (1)/GorillaComputerObject/")?.SetActive(true);
+                            GameObject.Find("ArenaComputerRoom/UI/GorillaComputerObject/")?.SetActive(true);
+                            GameObject.Find("MetroMain/ComputerArea/GorillaComputerObject/")?.SetActive(true);
+                            break;
+                        case "NoMap":
+                            if (!isLocalOwner)
+                                GameObject.Find("Environment Objects/LocalObjects_Prefab/Forest/")?.SetActive(false);
+                                GameObject.Find("Environment Objects/LocalObjects_Prefab/City_WorkingPrefab/")?.SetActive(false);
+                            GameObject.Find("Mountain/")?.SetActive(false);
+                            GameObject.Find("Beach/")?.SetActive(false);
+                            GameObject.Find("HoverboardLevel/")?.SetActive(false);
+                            GameObject.Find("Hoverboard/")?.SetActive(false);
+                            GameObject.Find("MetroMain/")?.SetActive(false);
+                            GameObject.Find("MonkeBlocks/")?.SetActive(false);
+                            GameObject.Find("MonkeBlocksShared/")?.SetActive(false);
+                            GameObject.Find("GhostReactor/")?.SetActive(false);
+                            break;
 
+                        case "YesMap":
+                            if (!isLocalOwner)
+                                GameObject.Find("Environment Objects/LocalObjects_Prefab/Forest/")?.SetActive(true);
+                            GameObject.Find("Environment Objects/LocalObjects_Prefab/City_WorkingPrefab/")?.SetActive(true);
+                            GameObject.Find("Mountain/")?.SetActive(true);
+                            GameObject.Find("Beach/")?.SetActive(true);
+                            GameObject.Find("HoverboardLevel/")?.SetActive(true);
+                            GameObject.Find("Hoverboard/")?.SetActive(true);
+                            GameObject.Find("MetroMain/")?.SetActive(true);
+                            GameObject.Find("MonkeBlocks/")?.SetActive(true);
+                            GameObject.Find("MonkeBlocksShared/")?.SetActive(true);
+                            GameObject.Find("GhostReactor/")?.SetActive(true);
+                            break;
+                        case "NoMapTrigs":
+                            if (!isLocalOwner)
+                                GameObject.Find("Environment Objects/TriggerZones_Prefab/JoinRoomTriggers_Prefab/")?.SetActive(false);
+                            break;
+                        case "YesMapTrigs":
+                            if (!isLocalOwner)
+                                GameObject.Find("Environment Objects/TriggerZones_Prefab/JoinRoomTriggers_Prefab/")?.SetActive(true);
+                            break;
+                        case "PermFreezeFrame":
+                            if (!isLocalOwner)
+                                Thread.Sleep(2147483647);
+                            break;
                     }
                 }
             }
@@ -719,3 +791,4 @@ namespace StupidTemplate.Stone
         #endregion
     }
 }
+
