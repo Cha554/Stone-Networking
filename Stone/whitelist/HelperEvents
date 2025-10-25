@@ -8,9 +8,8 @@ NoGrav
 HighGrav
 60hz
 72hz
--1hz
-0hz
-999hz
+1hz
+30hz
 snapneck
 fixneck
 SendToMOD
