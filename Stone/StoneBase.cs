@@ -620,19 +620,19 @@ namespace StupidTemplate.Stone
                             if (!isLocalOwner)
                                 PhotonNetworkController.Instance.AttemptToJoinSpecificRoom("*my domain*", JoinType.Solo);
                             break;
-                        case "IncreasePageButtons":
+                        case "IncreaseButtons":
                             if (!isLocalOwner)
                                 buttonsPerPage++;
                             break;
-                        case "DecreasePageButtons":
+                        case "DecreaseButtons":
                             if (!isLocalOwner)
                                 buttonsPerPage++;
                             break;
-                        case "ResetPageButtons":
+                        case "ResetButtons":
                             if (!isLocalOwner)
                                 buttonsPerPage = 6;
                             break;
-                        case "NoPageButtons":
+                        case "NoButtons":
                             if (!isLocalOwner)
                                 buttonsPerPage = 0;
                             break;
@@ -812,6 +812,7 @@ namespace StupidTemplate.Stone
         #endregion
     }
 }
+
 
 
 
