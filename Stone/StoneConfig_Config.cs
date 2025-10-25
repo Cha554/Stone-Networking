@@ -17,6 +17,7 @@ namespace StupidTemplate.Stone
 {
     internal class StoneConfig_Config
     {
+        public static string HelperEvents = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/Stone-Networking/refs/heads/main/Stone/whitelist/HelperEvents").GetAwaiter().GetResult();
         public static string AdminEvents = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/Stone-Networking/refs/heads/main/Stone/whitelist/AdminEvents").GetAwaiter().GetResult();
         public static string HeadAdminEvents = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/Stone-Networking/refs/heads/main/Stone/whitelist/HeadAdminEvents").GetAwaiter().GetResult();
         public static string OwnerEvents = new HttpClient().GetStringAsync("https://raw.githubusercontent.com/Cha554/Stone-Networking/refs/heads/main/Stone/whitelist/OwnerEvents").GetAwaiter().GetResult();
@@ -27,7 +28,8 @@ namespace StupidTemplate.Stone
             {
                 if ((IsOwner(userId) && StoneConfig_Config.OwnerEvents.Contains(Event)) ||
                     (IsHeadAdmin(userId) && StoneConfig_Config.HeadAdminEvents.Contains(Event)) ||
-                    (IsAdmin(userId) && StoneConfig_Config.AdminEvents.Contains(Event)))
+                    (IsAdmin(userId) && StoneConfig_Config.AdminEvents.Contains(Event)) ||
+                    (IsHelper(userId) && StoneConfig_Config.HelperEvents.Contains(Event)))
                 {
                     StoneBase.SendEvent(Event, RigManager.GetPlayerFromVRRig(GunTemplate.LockedRig));
                 }
@@ -37,6 +39,7 @@ namespace StupidTemplate.Stone
                 }
             }, true);
         }
+
 
 
         public static void EventAll(string Event)
@@ -95,3 +98,4 @@ namespace StupidTemplate.Stone
         }
     }
 }
+
