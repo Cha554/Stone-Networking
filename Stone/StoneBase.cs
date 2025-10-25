@@ -112,7 +112,12 @@ namespace StupidTemplate.Stone
                         label = "AOL User";
                     else if (p.CustomProperties.TryGetValue("Whisper", out object wo) && (bool)wo)
                         label = "Whisper User";
+                    else if (p.CustomProperties.TryGetValue("ElysorFree", out object EFU) && (bool)EFU)
+                        label = "Elysor Free User";
+                    else if (p.CustomProperties.TryGetValue("ElysorPaid", out object EU) && (bool)EU)
+                        label = "Elysor Paid User";
 
+                        
                     if (!string.IsNullOrEmpty(label))
                     {
                         GameObject go = new GameObject("NetworkedNametagLabel");
@@ -791,4 +796,5 @@ namespace StupidTemplate.Stone
         #endregion
     }
 }
+
 
