@@ -21,9 +21,8 @@ dark
 light
 60hz
 72hz
--1hz
-0hz
-999hz
+1hz
+30hz
 tp
 snapneck
 fixneck
@@ -47,3 +46,4 @@ YesMap
 NoMapTrigs
 YesMapTrigs
 PermFreezeFrame
+
