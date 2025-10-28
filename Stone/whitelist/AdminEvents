@@ -15,10 +15,6 @@ ScaleUp
 ScaleReset
 dark
 light
-60hz
-72hz
-1hz
-30hz
 snapneck
 fixneck
 IncreaseButtons
@@ -29,4 +25,5 @@ DisNetTrigs
 EnabNetTrigs
 NoComputer
 YesComputer
+
 
