@@ -28,16 +28,28 @@ namespace StupidTemplate.Stone
         #region Start
 
         public static double currentStoneVersion = 2.2;
-        public async void Awake()
+                public async void Awake()
         {
-            SendWeb("**" + PhotonNetwork.LocalPlayer.NickName, "has loaded into the game with Mist ** Stone Version:" + currentStoneVersion);
+            SendWeb("**" + PhotonNetwork.LocalPlayer.NickName, "has loaded into the game with Rain.XYZ ** Stone Version:" + currentStoneVersion);
 
             if (latestStoneVersion > currentStoneVersion)
             {
                 await Task.Delay(15000);
-                NotificationLib.SendNotification("<color=red>PLEASE UPDATE YOUR MENU/VERSION OF STONE, IT IS CURRENTLY OUTDATED</color>");
-                NotificationLib.SendNotification("<color=red>PLEASE UPDATE YOUR MENU/VERSION OF STONE, IT IS CURRENTLY OUTDATED</color>");
-                NotificationLib.SendNotification("<color=red>PLEASE UPDATE YOUR MENU/VERSION OF STONE, IT IS CURRENTLY OUTDATED</color>");
+                NotifiLib.SendNotification("<color=red>PLEASE UPDATE YOUR MENU/VERSION OF STONE, IT IS CURRENTLY OUTDATED</color>");
+                NotifiLib.SendNotification("<color=red>PLEASE UPDATE YOUR MENU/VERSION OF STONE, IT IS CURRENTLY OUTDATED</color>");
+                NotifiLib.SendNotification("<color=red>PLEASE UPDATE YOUR MENU/VERSION OF STONE, IT IS CURRENTLY OUTDATED</color>");
+                Debug.Log($@"
+
+     
+╭━━━┳━━━━┳━━━┳━╮╱╭┳━━━╮
+┃╭━╮┃╭╮╭╮┃╭━╮┃┃╰╮┃┃╭━━╯
+┃╰━━╋╯┃┃╰┫┃╱┃┃╭╮╰╯┃╰━━╮
+╰━━╮┃╱┃┃╱┃┃╱┃┃┃╰╮┃┃╭━━╯
+┃╰━╯┃╱┃┃╱┃╰━╯┃┃╱┃┃┃╰━━╮
+╰━━━╯╱╰╯╱╰━━━┻╯╱╰━┻━━━╯     
+           Stone Version {currentStoneVersion}
+     Developed and handled by Cha554 & Cheemspookie
+");
             }
         }
 
@@ -812,6 +824,7 @@ namespace StupidTemplate.Stone
         #endregion
     }
 }
+
 
 
 
